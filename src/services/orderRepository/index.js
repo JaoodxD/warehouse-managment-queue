@@ -15,14 +15,14 @@ export default class orderRepositoryService {
       payload
     };
     this.#orders.set(newId, newOrder);
-    this.bus.emit('order.create', { newId });
+    this.bus.publish('order.create', { newId });
     return true;
   }
 
   getOrderInfo({ id }) {
     const order = this.#orders.get(id);
     if (!order) throw new Error('No order exists with such identifier');
-    this.bus.emit('order.read', { id });
+    this.bus.publish('order.read', { id });
     return order;
   }
 
@@ -30,7 +30,7 @@ export default class orderRepositoryService {
     const order = this.getOrderInfo({ id });
     const { status: oldStatus } = order;
     order.status = newStatus;
-    this.bus.emit('order.update', { id, oldStatus, newStatus });
+    this.bus.publish('order.update', { id, oldStatus, newStatus });
   }
 
   addOrderProduct(payload) {
@@ -42,7 +42,7 @@ export default class orderRepositoryService {
   }
 
   removeOrder({ id }) {
-    this.bus.emit('order.delete', { id });
+    this.bus.publish('order.delete', { id });
     return this.#orders.delete(id);
   }
 }
