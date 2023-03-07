@@ -1,5 +1,5 @@
 import { EventEmitter } from 'node:events';
-export default class Bus {
+export class Bus {
   #ee;
   #services;
   constructor() {
@@ -20,7 +20,7 @@ export default class Bus {
     const [serviceName, cmdName] = commandName.split('.');
     const service = this.#services.get(serviceName);
     if (!service) throw new Error(`No such service: ${serviceName}`);
-    if (!service[cmdName]) throw new Error(`No command "${cmd}" on ${serviceName} service`);
+    if (!service[cmdName]) throw new Error(`No command "${cmdName}" on ${serviceName} service`);
     return service[cmdName](payload);
   }
 
