@@ -4,7 +4,7 @@ import { Bus } from './infra/bus/index.js';
 
 const bus = new Bus();
 for (const [name, ServiceConstructor] of Object.entries(services)) {
-  const service = new ServiceConstructor(bus);
+  const service = new ServiceConstructor({bus});
   bus.registerService(name, service);
 }
 
