@@ -4,7 +4,8 @@ import { Bus } from './infra/bus/index.js';
 
 const bus = new Bus();
 for (const [name, ServiceConstructor] of Object.entries(services)) {
-  bus.registerService(name, ServiceConstructor);
+  const service = new ServiceConstructor(bus);
+  bus.registerService(name, service);
 }
 
 const order = bus.command('orderRepository.createOrder', {
