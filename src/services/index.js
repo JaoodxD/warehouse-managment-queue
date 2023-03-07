@@ -1,6 +1,6 @@
-import orderRepositoryService from "./orderRepository";
-import StatusHandlerService from "./statusHandler";
-import WarehouseService from "./warehouse";
+import orderRepositoryService from "./orderRepository/index.js";
+import StatusHandlerService from "./statusHandler/index.js";
+import WarehouseService from "./warehouse/index.js";
 
 export default {
   orderRepository: orderRepositoryService,
