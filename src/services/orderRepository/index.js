@@ -16,7 +16,7 @@ export default class orderRepositoryService {
     };
     this.#orders.set(newId, newOrder);
     this.bus.publish('order.create', { newId });
-    return true;
+    return newOrder;
   }
 
   getOrderInfo({ id }) {
