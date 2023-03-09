@@ -1,3 +1,4 @@
+import { STATUSES } from "../statusHandler/finiteStateMachine.js";
 export default class orderRepositoryService {
   #orders;
   #lastId;
@@ -11,10 +12,11 @@ export default class orderRepositoryService {
     const newId = ++this.#lastId;
     const newOrder = {
       id: newId,
-      status: 'New',
+      // status: 'Новый',
       payload
     };
     this.#orders.set(newId, newOrder);
+    this.changeOrderStatus({ id: newId, newStatus: STATUSES.Новый });
     this.bus.publish('order.create', { newId });
     return newOrder;
   }
