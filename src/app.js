@@ -1,6 +1,6 @@
 import services from './services/index.js';
-
 import { Bus } from './infra/bus/index.js';
+import { STATUSES } from './services/statusHandler/finiteStateMachine.js';
 
 const bus = new Bus();
 for (const [name, ServiceConstructor] of Object.entries(services)) {
@@ -21,7 +21,6 @@ const order = bus.command('orderRepository.createOrder', {
   ]
 });
 
-console.dir({ order }, { depth: null });
 
 bus.command('orderRepository.addOrderProduct', {
   id: order.id,
@@ -42,3 +41,6 @@ bus.command('orderRepository.removeOrderProduct', {
 const updatedOrder = bus.command('orderRepository.getOrder', { id: order.id });
 
 console.dir({ updatedOrder }, { depth: null });
+
+bus.command('orderRepository.changeOrderStatus', { id: order.id, newStatus: STATUSES.Новый });
+bus.command('orderRepository.changeOrderStatus', { id: order.id, newStatus: STATUSES.Принят });
