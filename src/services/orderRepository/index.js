@@ -30,7 +30,7 @@ export default class orderRepositoryService {
     const order = this.getOrder({ id });
     const { status: oldStatus } = order;
     order.status = newStatus;
-    this.bus.publish('order.update', { id, oldStatus, newStatus });
+    this.bus.publish('order.updateStatus', { id, oldStatus, newStatus });
   }
 
   addOrderProduct({ id, product: { name: productName, amount } }) {
