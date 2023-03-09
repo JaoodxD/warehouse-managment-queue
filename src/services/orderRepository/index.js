@@ -19,7 +19,7 @@ export default class orderRepositoryService {
     return newOrder;
   }
 
-  getOrderInfo({ id }) {
+  getOrder({ id }) {
     const order = this.#orders.get(id);
     if (!order) throw new Error('No order exists with such identifier');
     this.bus.publish('order.read', { id });
@@ -27,18 +27,33 @@ export default class orderRepositoryService {
   }
 
   changeOrderStatus({ id, newStatus }) {
-    const order = this.getOrderInfo({ id });
+    const order = this.getOrder({ id });
     const { status: oldStatus } = order;
     order.status = newStatus;
     this.bus.publish('order.update', { id, oldStatus, newStatus });
   }
 
-  addOrderProduct(payload) {
-
+  addOrderProduct({ id, product: { name: productName, amount } }) {
+    const order = this.getOrder({ id });
+    if (!order) throw new Error('No order exists with such identifier');
+    const { orderedItems } = order.payload;
+    const orderProduct = orderedItems.find(({ name }) => name === productName);
+    if (!orderProduct) {
+      return orderedItems.push(product);
+    }
+    orderProduct.amount += amount;
+    return true;
   }
 
-  removeOrderProduct(payload) {
-
+  removeOrderProduct({ id, product: { name: productName, amount } }) {
+    const order = this.getOrder({ id });
+    if (!order) throw new Error('No order exists with such identifier');
+    const { orderedItems } = order.payload;
+    const orderProduct = orderedItems.find(({ name }) => name === productName);
+    if (!orderProduct) {
+      return true;
+    }
+    orderProduct.amount -= amount;
   }
 
   removeOrder({ id }) {
