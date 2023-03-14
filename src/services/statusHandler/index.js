@@ -14,7 +14,7 @@ export default class StatusHandlerService {
     const order = this.bus.command('orderRepository.getOrder', { id });
     const { status } = order;
     if (!oldStatus) return;
-    locks.request('warehouse', { mode: 'exclusive' }, async () => {
+    locks.request('warehouse', async () => {
       await wait(1000);
       console.log('\n##INSIDE WEB-LOCKS');
       const machine = new FiniteStateMachine(oldStatus);
