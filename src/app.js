@@ -21,6 +21,7 @@ const order = bus.command('orderRepository.createOrder', {
   ]
 });
 
+const { id } = order;
 
 bus.command('orderRepository.addOrderProduct', {
   id: order.id,
@@ -31,16 +32,21 @@ bus.command('orderRepository.addOrderProduct', {
 });
 
 bus.command('orderRepository.removeOrderProduct', {
-  id: order.id,
+  id,
   product: {
     name: 'Coca-Cola',
     amount: 3
   }
 });
 
-const updatedOrder = bus.command('orderRepository.getOrder', { id: order.id });
+const updatedOrder = bus.command('orderRepository.getOrder',
+  { id });
 
 console.dir({ updatedOrder }, { depth: null });
 
-bus.command('orderRepository.changeOrderStatus', { id: order.id, newStatus: STATUSES.Новый });
-bus.command('orderRepository.changeOrderStatus', { id: order.id, newStatus: STATUSES.Принят });
+bus.command('orderRepository.changeOrderStatus',
+  { id, newStatus: STATUSES.Принят });
+bus.command('orderRepository.changeOrderStatus',
+  { id, newStatus: STATUSES.Передан });
+bus.command('orderRepository.changeOrderStatus',
+  { id, newStatus: STATUSES.Возврат });
